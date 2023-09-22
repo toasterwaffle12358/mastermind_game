@@ -5,8 +5,15 @@ fun main() {
     //variable to keep main game loop running
     var hasbeensolved = false
 
+    //setting up colors
+    // Everything after this is in red
+    val colorpurple = "\u001b[38;5;165m"
+    // Resets previous color codes
+    val colorreset = "\u001b[0m"
+
     //creating the solution colors and order as a list, will be used to compare against user inputs to see if user is correct
     val solutionlist = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
+    println("solution is: $solutionlist this line is for testing, remove in final build")
 
     println("welcome!")
 
@@ -35,11 +42,28 @@ fun main() {
         // formatted as just counters as to not give away any info on positioning.
         var correctcounter = 0
         var correctbutwrongspotcounter = 0
+        var onlistitem = 0
 
-        println(guess)
+        for (item in guess) {
+            when {
+                (item == solutionlist[onlistitem]) -> correctcounter++
+                (solutionlist.contains(item) == true) -> correctbutwrongspotcounter++
+            }
+            onlistitem++
+        }
 
+        if (correctcounter == 4) {
+            println("wowie holy cow no way you did it so cool omg")
+            break
+        }
 
-        hasbeensolved = true
+        //printing results of user input list compared to solution list
+        println("you got " + colorpurple +correctcounter + colorreset + " correct number(s) in the right spot!")
+        println("you got " + colorpurple +correctbutwrongspotcounter + colorreset + " number(s) correct but in the wrong spot")
+
+        //testing just to make sure that the input was processed properly
+        println("your guess was $guess this line is for testing, remove in final build.")
+
     }
 
 }
