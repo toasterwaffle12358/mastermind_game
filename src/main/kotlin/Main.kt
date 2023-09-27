@@ -71,6 +71,7 @@ fun main() {
         for (item in guesslistavailible) {
             if (solutionlistavailible.contains(item) == true) {
                 correctbutwrongspotcounter++
+                solutionlistavailible[solutionlistavailible.indexOf(item)] = 12
             }
         }
 
