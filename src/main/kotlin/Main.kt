@@ -1,96 +1,82 @@
-//imports
-import kotlin.random.Random
 
-fun main() {
-    //variable to keep main game loop running
-    var whileloopcount: Int = 0
+
+fun main(args: Array<String>) {
 
     //setting up colors
     // Everything after this is in red
-    val colorpurple = "\u001b[38;5;165m"
+    val colorred = "\u001b[38;5;197m"
+    // Everything after this is in yellow
+    val coloryellow = "\u001b[38;5;226m"
     // Resets previous color codes
     val colorreset = "\u001b[0m"
 
-    //creating the solution colors and order as a list, will be used to compare against user inputs to see if user is correct
-    val solutionlist = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
+    //will be true until game is won or quit, used to keep game while loop running
+    var playing = true
+
+    //shows the active player, true if the current player is player1 (yellow) false if player 2 (red) (what color piece will be placed on this turn)
+    var isCurrentPlayerOne = true
+    //used for editing board
+    var playerNumber = 0
+
+    //setting up board
+    var boardLineOne = mutableListOf(0,0,0,0,0,0,0)
+    var boardLineTwo = mutableListOf(0,0,0,0,0,0,0)
+    var boardLineThree = mutableListOf(0,0,0,0,0,0,0)
+    var boardLineFour = mutableListOf(0,0,0,0,0,0,0)
+    var boardLineFive = mutableListOf(0,0,0,0,0,0,0)
+    var boardLineSix = mutableListOf(0,0,0,0,0,0,0)
+    var board = mutableListOf(boardLineOne, boardLineTwo, boardLineThree, boardLineFour, boardLineFive, boardLineSix)
+
+    //setting up map for board
+    //val boardMap: Map<Int, String> = mapOf(0 to "0", 1 to coloryellow + "●" + colorreset, 2 to colorred + "●" + colorreset)
 
 
-    println("welcome!")
+    println("Welcome to connect four!")
 
-    //main game loop
-    while (whileloopcount < 10) {
+    while (playing) {
 
-        //taking user input
-        println("guess 4 numbers from 1 to 6 seperated by only commas. eg: 4,6,5,1")
-        println("type \"i give up\" to get the solution")
 
-        //getting user input
-        val guessinput = readln()
-
-        //testing to see if user gives up
-        if (guessinput == "i give up" ) {
-            println("solution is: $solutionlist")
-            break
+        when (isCurrentPlayerOne) {
+            true ->  playerNumber = 1
+            false -> playerNumber = 2
         }
 
-        //turning user input into list from string so that it can be compared to the solution list
-        val guessstrings = guessinput.split(",")
 
-        //testing user input to make sure its formatted properly and won't break the map function
-        // also to make sure that user is only inputting 4 numbers from  1 to 6
-        if (guessstrings.count() != 4) {
-            println("input syntax wrong, try again.")
+        for (row in board) {
+            for (item in row) {
+                when (item) {
+                    0 -> print("O ")
+                    1 -> print(coloryellow + "● " + colorreset)
+                    2 -> print(colorred + "● " + colorreset)
+                }
+            }
+            println("")
+            //println(row)
+        }
+        when (isCurrentPlayerOne) {
+            true -> println("player " + coloryellow + "one's " + colorreset + "turn")
+            false -> println("player " + colorred + "two's " + colorreset + "turn")
+        }
+        println("type the number of the row you want to place in (1-7)")
+        val input = readln()
+        val inputInt = input.toIntOrNull()
+        if (inputInt == null) {
+            println("incorrect syntax, make sure input is a number from 1 to 7")
             continue
         }
-        if (guessstrings.filterNot { s -> (s == "1") || (s == "2") || (s == "3") || (s == "4") || (s == "5") || (s == "6") }.isNotEmpty()) {
-            println("input syntax wrong, try again.")
-            continue
-        }
-        whileloopcount++
 
-        //turning user input into proper formatting (formatted as a list of integers, just like the solution list)
-        var guess = guessstrings.map { it.toInt() }
-
-        //setting up counters that will be used to display how the user scored for each input.
-        // formatted as just counters as to not give away any info on positioning.
-        var correctcounter = 0
-        var correctbutwrongspotcounter = 0
-        var onlistitem = 0
-        var solutionlistavailible = solutionlist.toMutableList()
-        var guesslistavailible = guess.toMutableList()
-
-        //calculating numbers correct in right and wrong spot
-        for (item in guess) {
-            if (item == solutionlist[onlistitem]) {
-                correctcounter++
-                solutionlistavailible[onlistitem] = 10
-                guesslistavailible[onlistitem] = 11
-            }
-            onlistitem++
-        }
-        for (item in guesslistavailible) {
-            if (solutionlistavailible.contains(item) == true) {
-                correctbutwrongspotcounter++
-                solutionlistavailible[solutionlistavailible.indexOf(item)] = 12
-            }
+        when {
+            boardLineSix[inputInt - 1] == 0 -> boardLineSix[inputInt - 1] = playerNumber
+            boardLineFive[inputInt - 1] == 0 -> boardLineFive[inputInt - 1] = playerNumber
+            boardLineFour[inputInt - 1] == 0 -> boardLineFour[inputInt - 1] = playerNumber
+            boardLineThree[inputInt - 1] == 0 -> boardLineThree[inputInt - 1] = playerNumber
+            boardLineTwo[inputInt - 1] == 0 -> boardLineTwo[inputInt - 1] = playerNumber
+            boardLineOne[inputInt - 1] == 0 -> boardLineOne[inputInt - 1] = playerNumber
         }
 
 
-        //what to do if the user gets all numbers correct
-        if (correctcounter == 4) {
-            println("wowie holy cow no way you did it so cool omg")
-            break
-        }
-
-        //printing results of user input list compared to solution list
-        println("you got " + colorpurple +correctcounter + colorreset + " correct number(s) in the right spot!")
-        println("you got " + colorpurple +correctbutwrongspotcounter + colorreset + " number(s) correct but in the wrong spot")
-        println("you have " + colorpurple + (10 - whileloopcount) + colorreset + " guesses left")
-        if (whileloopcount == 10) {
-            println("you lost, no guesses left :(")
-            println("solution is: $solutionlist")
-        }
-
+        //switching player
+        isCurrentPlayerOne = !isCurrentPlayerOne
     }
 
 }
