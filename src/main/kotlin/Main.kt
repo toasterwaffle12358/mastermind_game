@@ -18,6 +18,10 @@ fun main(args: Array<String>) {
     //used for editing board
     var playerNumber = 0
 
+<<<<<<< HEAD
+    println("welcome!")
+    println("type \"help\" for the game rules")
+=======
     //setting up board
     var boardLineOne = mutableListOf(0,0,0,0,0,0,0)
     var boardLineTwo = mutableListOf(0,0,0,0,0,0,0)
@@ -26,6 +30,7 @@ fun main(args: Array<String>) {
     var boardLineFive = mutableListOf(0,0,0,0,0,0,0)
     var boardLineSix = mutableListOf(0,0,0,0,0,0,0)
     var board = mutableListOf(boardLineOne, boardLineTwo, boardLineThree, boardLineFour, boardLineFive, boardLineSix)
+>>>>>>> 71af87e822781204dbe852bc9426a42a2efafa7c
 
     //setting up map for board
     //val boardMap: Map<Int, String> = mapOf(0 to "0", 1 to coloryellow + "●" + colorreset, 2 to colorred + "●" + colorreset)
@@ -33,7 +38,25 @@ fun main(args: Array<String>) {
 
     println("Welcome to connect four!")
 
+<<<<<<< HEAD
+        //testing user input for help and giving up
+        when (guessinput) {
+            "i give up" -> {
+                println("solution is: $solutionlist")
+                break
+            }
+            "help" -> {
+                println("The idea of the game is for the player (the code-breaker) to guess the secret code chosen by the computer \n" +
+                        "(the code-maker). The code is a sequence of 4 numbers chosen from 1 to 6. The code-breaker  \n" +
+                        "makes a series of pattern guesses - after each guess the code-maker gives feedback in the form of 2 numbers, the \n" +
+                        "number of numbers that are of the right number and in the correct position, and the number of numbers that are of the \n" +
+                        "correct number but not in the correct position \n")
+                continue
+            }
+        }
+=======
     while (playing) {
+>>>>>>> 71af87e822781204dbe852bc9426a42a2efafa7c
 
 
         when (isCurrentPlayerOne) {
