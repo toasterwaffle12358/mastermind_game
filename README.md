@@ -12,9 +12,8 @@ Die hard mastermind-kotlin-terminal-interface fans have been waiting for this mo
   <img width="1285" alt="Screen Shot 2023-11-02 at 11 22 54 AM" src="https://github.com/toasterwaffle12358/mastermind_game/assets/115607216/9c7a84fc-8441-4623-87f6-247af1b43f80">
 - gameplay
   <img width="1282" alt="Screen Shot 2023-11-02 at 11 23 22 AM" src="https://github.com/toasterwaffle12358/mastermind_game/assets/115607216/49ea2268-5ac5-4aab-8737-f1d0990eb9fd">
-- winning
-  <img width="1284" alt="Screen Shot 2023-11-02 at 11 25 27 AM" src="https://github.com/toasterwaffle12358/mastermind_game/assets/115607216/d4114bd9-133d-4672-a078-4429374380b2">
-  <img width="553" alt="Screen Shot 2023-11-02 at 11 25 48 AM" src="https://github.com/toasterwaffle12358/mastermind_game/assets/115607216/6b9cf505-ac45-45f4-b2fa-99e41ce9ccde">
+- winning <br>
+    ![Screenshot 2023-11-03 at 1 49 13 PM](https://github.com/toasterwaffle12358/mastermind_game/assets/115607216/71a24799-d9b3-4b06-a508-ef226611bca4)
 - losing <br>
   <img width="346" alt="Screen Shot 2023-11-02 at 11 26 52 AM" src="https://github.com/toasterwaffle12358/mastermind_game/assets/115607216/80f88406-e533-4271-8701-d773edb039d8">
 - input filtering
