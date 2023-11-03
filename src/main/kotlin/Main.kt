@@ -38,7 +38,6 @@ fun main() {
 
     //clearing screen
     println("\u001b[H\u001b[2J")
-    println("screen clear")
 
     println("                      __                       __          __ \n" +
             ".--------.---.-.-----|  |_.-----.----.--------|__.-----.--|  |\n" +
@@ -89,7 +88,6 @@ fun main() {
         //spacing
         println("\n \n \n")
         println("\u001b[H\u001b[2J")
-        println("screen clear")
 
         //turning user input into list from string so that it can be compared to the solution list
         val guessstrings = guessinput.split(",")
