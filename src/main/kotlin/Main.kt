@@ -16,6 +16,15 @@ fun main() {
     // Resets previous color codes
     val colorreset = "\u001b[0m"
 
+    //setting up symbols
+    var symbolOne = "⓵"
+    var symbolTwo = "⓶"
+    var symbolThree = "⓷"
+    var symbolFour = "⓸"
+    var symbolFive = "⓹"
+    var symbolSix = "⓺"
+    var symbolFullCorrect = "▣"
+    var symbolPartialCorrect = "◻"
 
     //creating the solution colors and order as a list, will be used to compare against user inputs to see if user is correct
     val solutionlist = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
@@ -27,14 +36,20 @@ fun main() {
     val feedbackListFull: MutableList<Int> = mutableListOf()
     val feedbackListPartial: MutableList<Int> = mutableListOf()
 
+    //clearing screen
+    println("\u001b[H\u001b[2J")
+    println("screen clear")
+
     println("                      __                       __          __ \n" +
             ".--------.---.-.-----|  |_.-----.----.--------|__.-----.--|  |\n" +
             "|        |  _  |__ --|   _|  -__|   _|        |  |     |  _  |\n" +
             "|__|__|__|___._|_____|____|_____|__| |__|__|__|__|__|__|_____|")
     println("type \"help\" for the game rules")
+    println("type \"compatibility\" if characters aren't displaying properly")
 
     //main game loop
     while (whileloopcount < 10) {
+
 
         //taking user input
         println("guess 4 numbers from 1 to 6 seperated by only commas. eg: 4,6,5,1 or, type \"i give up\" to get the solution")
@@ -42,9 +57,6 @@ fun main() {
         //getting user input
         val guessinput = readln()
 
-        //spacing
-        println("\n \n \n")
-        println("\u001b[H\u001b[2J")
 
         //testing user input for help and giving up
         when (guessinput) {
@@ -55,12 +67,29 @@ fun main() {
             "help" -> {
                 println("The idea of the game is for the player (the code-breaker) to guess the secret code chosen by the computer \n" +
                         "(the code-maker). The code is a sequence of 4 numbers chosen from 1 to 6. The code-breaker  \n" +
-                        "makes a series of pattern guesses - after each guess the code-maker gives feedback in the form of 2 numbers, the \n" +
-                        "number of numbers that are of the right number and in the correct position, and the number of numbers that are of the \n" +
-                        "correct number but not in the correct position \n")
+                        "makes a series of pattern guesses - after each guess the code-maker gives feedback in the form of 2 symbols \n" +
+                        "filled in squares represent correct numbers in the right spot, and empty squares represent correct numbers, but \n" +
+                        "in the wrong spot \n")
+                continue
+            }
+            "compatibility" -> {
+                println("compatibility mode enabled")
+                symbolOne = "(1)"
+                symbolTwo = "(2)"
+                symbolThree = "(3)"
+                symbolFour = "(4)"
+                symbolFive = "(5)"
+                symbolSix = "(6)"
+                symbolFullCorrect = "[#]"
+                symbolPartialCorrect = "[ ]"
                 continue
             }
         }
+
+        //spacing
+        println("\n \n \n")
+        println("\u001b[H\u001b[2J")
+        println("screen clear")
 
         //turning user input into list from string so that it can be compared to the solution list
         val guessstrings = guessinput.split(",")
@@ -107,11 +136,6 @@ fun main() {
         }
 
 
-        //what to do if the user gets all numbers correct
-        if (correctcounter == 4) {
-            println("wowie holy cow no way you did it so cool omg")
-            break
-        }
 
         //adding feedback to feedback lists
         feedbackListFull.add(correctcounter)
@@ -121,27 +145,32 @@ fun main() {
         for ((index, item) in guesseslist.withIndex()) {
             for (number in item) {
                 when (number) {
-                    1 -> print("$colorRed⓵ $colorreset")
-                    2 -> print("$colorOrange⓶ $colorreset")
-                    3 -> print("$colorYellow⓷ $colorreset")
-                    4 -> print("$colorGreen⓸ $colorreset")
-                    5 -> print("$colorLightBlue⓹ $colorreset")
-                    6 -> print("$colorDarkBlue⓺ $colorreset")
+                    1 -> print("$colorRed$symbolOne $colorreset")
+                    2 -> print("$colorOrange$symbolTwo $colorreset")
+                    3 -> print("$colorYellow$symbolThree $colorreset")
+                    4 -> print("$colorGreen$symbolFour $colorreset")
+                    5 -> print("$colorLightBlue$symbolFive $colorreset")
+                    6 -> print("$colorDarkBlue$symbolSix $colorreset")
                 }
             }
             print("|")
             for (i in 1..feedbackListFull[index]) {
-                print(" ▣")
+                print(" $symbolFullCorrect")
             }
             for (i in 1..feedbackListPartial[index]) {
-                print(" ◻")
+                print(" $symbolPartialCorrect")
             }
             println(" ")
         }
 
-        //printing results of user input list compared to solution list
-        //println("you got " + colorpurple +correctcounter + colorreset + " correct number(s) in the right spot!")
-        //println("you got " + colorpurple +correctbutwrongspotcounter + colorreset + " number(s) correct but in the wrong spot")
+        //what to do if the user gets all numbers correct
+        if (correctcounter == 4) {
+            println("wowie holy cow no way you did it so cool omg")
+            println("game won in $whileloopcount guesses")
+            break
+        }
+
+        //printing losing screen
         println("you have " + colorpurple + (10 - whileloopcount) + colorreset + " guesses left")
         if (whileloopcount == 10) {
             println("you lost, no guesses left :(")
