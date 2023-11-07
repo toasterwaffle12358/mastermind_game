@@ -44,7 +44,7 @@ fun main() {
             "|        |  _  |__ --|   _|  -__|   _|        |  |     |  _  |\n" +
             "|__|__|__|___._|_____|____|_____|__| |__|__|__|__|__|__|_____|")
     println("type \"help\" for the game rules")
-    println("type \"compatibility\" if characters aren't displaying properly")
+    println("type \"compatibility\" if characters aren't displaying properly (if any of these show up improperly: ⓵ ▣ ◻ )")
 
     //main game loop
     while (whileloopcount < 10) {
