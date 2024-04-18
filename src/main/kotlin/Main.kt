@@ -1,6 +1,15 @@
 //imports
 import kotlin.random.Random
 
+fun InputCheck() {
+
+}
+
+fun PageRefresh() {
+    println("\n \n \n")
+    println("\u001b[H\u001b[2J")
+}
+
 fun main() {
     //variable to keep main game loop running
     var whileloopcount: Int = 0
@@ -12,9 +21,9 @@ fun main() {
     val colorGreen = "\u001B[38;5;118m"
     val colorLightBlue = "\u001B[38;5;159m"
     val colorDarkBlue = "\u001B[38;5;27m"
-    val colorpurple = "\u001b[38;5;165m"
+    val colorPurple = "\u001b[38;5;165m"
     // Resets previous color codes
-    val colorreset = "\u001b[0m"
+    val colorReset = "\u001b[0m"
 
     //setting up symbols
     var symbolOne = "⓵"
@@ -27,12 +36,12 @@ fun main() {
     var symbolPartialCorrect = "◻"
 
     //creating the solution colors and order as a list, will be used to compare against user inputs to see if user is correct
-    val solutionlist = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
+    val solutionList = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
 
     //creating list of previous guesses in order to display for each turn
-    val guesseslist: MutableList<List<Int>> = mutableListOf()
+    val guessesList: MutableList<List<Int>> = mutableListOf()
 
-    //list of privious "correct and in right spot" and "correct but in wrong spot" answers, will be used when displaying previous scores
+    //list of previous "correct and in right spot" and "correct but in wrong spot" answers, will be used when displaying previous scores
     val feedbackListFull: MutableList<Int> = mutableListOf()
     val feedbackListPartial: MutableList<Int> = mutableListOf()
 
@@ -47,20 +56,20 @@ fun main() {
     println("type \"compatibility\" if characters aren't displaying properly (if any of these show up improperly: ⓵ ▣ ◻ )")
 
     //main game loop
-    while (whileloopcount < 10) {
+    //while (whileLoopCount < 10) {
+    while (true) {
 
 
         //taking user input
-        println("guess 4 numbers from 1 to 6 seperated by only commas. eg: 4,6,5,1 or, type \"i give up\" to get the solution")
+        println("guess 4 numbers from 1 to 6 . eg: 4651 or, type \"i give up\" to get the solution")
 
         //getting user input
-        val guessinput = readln()
-
+        val guessInput = readln()
 
         //testing user input for help and giving up
-        when (guessinput) {
+        when (guessInput.lowercase()) {
             "i give up" -> {
-                println("solution is: $solutionlist")
+                println("solution is: $solutionList")
                 break
             }
             "help" -> {
@@ -86,40 +95,41 @@ fun main() {
         }
 
         //spacing
-        println("\n \n \n")
-        println("\u001b[H\u001b[2J")
+        PageRefresh()
 
         //turning user input into list from string so that it can be compared to the solution list
-        val guessstrings = guessinput.split(",")
+        val guessStrings = guessInput.split("").toMutableList()
+        guessStrings.removeAt(0)
+        guessStrings.removeAt(guessStrings.size - 1)
 
         //testing user input to make sure its formatted properly and won't break the map function
         // also to make sure that user is only inputting 4 numbers from  1 to 6
-        if (guessstrings.count() != 4) {
+        if (guessStrings.count() != 4) {
             println("input syntax wrong, try again.")
             continue
         }
-        if (guessstrings.filterNot { s -> (s == "1") || (s == "2") || (s == "3") || (s == "4") || (s == "5") || (s == "6") }.isNotEmpty()) {
+        if (guessStrings.filterNot { s -> (s == "1") || (s == "2") || (s == "3") || (s == "4") || (s == "5") || (s == "6") }.isNotEmpty()) {
             println("input syntax wrong, try again.")
             continue
         }
         whileloopcount++
 
         //turning user input into proper formatting (formatted as a list of integers, just like the solution list)
-        var guess = guessstrings.map { it.toInt() }
+        val guess = guessStrings.map { it.toInt() }
 
-        guesseslist.add(guess)
+        guessesList.add(guess)
 
         //setting up counters that will be used to display how the user scored for each input.
         // formatted as just counters as to not give away any info on positioning.
         var correctcounter = 0
         var correctbutwrongspotcounter = 0
         var onlistitem = 0
-        var solutionlistavailible = solutionlist.toMutableList()
+        var solutionlistavailible = solutionList.toMutableList()
         var guesslistavailible = guess.toMutableList()
 
         //calculating numbers correct in right and wrong spot
         for (item in guess) {
-            if (item == solutionlist[onlistitem]) {
+            if (item == solutionList[onlistitem]) {
                 correctcounter++
                 solutionlistavailible[onlistitem] = 10
                 guesslistavailible[onlistitem] = 11
@@ -127,7 +137,7 @@ fun main() {
             onlistitem++
         }
         for (item in guesslistavailible) {
-            if (solutionlistavailible.contains(item) == true) {
+            if (solutionlistavailible.contains(item)) {
                 correctbutwrongspotcounter++
                 solutionlistavailible[solutionlistavailible.indexOf(item)] = 12
             }
@@ -140,15 +150,15 @@ fun main() {
         feedbackListPartial.add(correctbutwrongspotcounter)
 
         //printing previous guesses
-        for ((index, item) in guesseslist.withIndex()) {
+        for ((index, item) in guessesList.withIndex()) {
             for (number in item) {
                 when (number) {
-                    1 -> print("$colorRed$symbolOne $colorreset")
-                    2 -> print("$colorOrange$symbolTwo $colorreset")
-                    3 -> print("$colorYellow$symbolThree $colorreset")
-                    4 -> print("$colorGreen$symbolFour $colorreset")
-                    5 -> print("$colorLightBlue$symbolFive $colorreset")
-                    6 -> print("$colorDarkBlue$symbolSix $colorreset")
+                    1 -> print("$colorRed$symbolOne $colorReset")
+                    2 -> print("$colorOrange$symbolTwo $colorReset")
+                    3 -> print("$colorYellow$symbolThree $colorReset")
+                    4 -> print("$colorGreen$symbolFour $colorReset")
+                    5 -> print("$colorLightBlue$symbolFive $colorReset")
+                    6 -> print("$colorDarkBlue$symbolSix $colorReset")
                 }
             }
             print("|")
@@ -163,16 +173,22 @@ fun main() {
 
         //what to do if the user gets all numbers correct
         if (correctcounter == 4) {
-            println("wowie holy cow no way you did it so cool omg")
+            println("you win!")
             println("game won in $whileloopcount guesses")
             break
         }
 
         //printing losing screen
-        println("you have " + colorpurple + (10 - whileloopcount) + colorreset + " guesses left")
+        println("you have " + colorPurple + (10 - whileloopcount) + colorReset + " guesses left")
         if (whileloopcount == 10) {
             println("you lost, no guesses left :(")
-            println("solution is: $solutionlist")
+            println("solution is: $solutionList")
+            println("play again? type \"y\" to play again")
+            if (readln().lowercase() == "y") {
+                break
+            } else {
+                break
+            }
         }
 
     }
