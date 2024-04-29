@@ -65,14 +65,13 @@ fun main() {
     //while (whileLoopCount < 10) {
     while (true) {
 
-
-        //taking user input
+        //asking for user input
         println("guess 4 numbers from 1 to 6 . eg: 4651 or, type \"i give up\" to get the solution")
 
         //getting user input
         val guessInput = readln()
 
-        //testing user input for help and giving up
+        //testing user input for help, compatibility, and give up commands
         when (guessInput.lowercase()) {
             "i give up" -> {
                 println("solution is: $solutionList")
@@ -105,6 +104,7 @@ fun main() {
 
         //turning user input into list from string so that it can be compared to the solution list
         val guessStrings = guessInput.split("").toMutableList()
+        //above method has empty list elements at front and back, must be removed to be properly compared to formatting of solution list
         guessStrings.removeAt(0)
         guessStrings.removeAt(guessStrings.size - 1)
 
@@ -130,22 +130,22 @@ fun main() {
         var correctcounter = 0
         var correctbutwrongspotcounter = 0
         var onlistitem = 0
-        var solutionlistavailible = solutionList.toMutableList()
-        var guesslistavailible = guess.toMutableList()
+        val solutionListAvailable = solutionList.toMutableList()
+        val guessListAvailable = guess.toMutableList()
 
         //calculating numbers correct in right and wrong spot
         for (item in guess) {
             if (item == solutionList[onlistitem]) {
                 correctcounter++
-                solutionlistavailible[onlistitem] = 10
-                guesslistavailible[onlistitem] = 11
+                solutionListAvailable[onlistitem] = 10
+                guessListAvailable[onlistitem] = 11
             }
             onlistitem++
         }
-        for (item in guesslistavailible) {
-            if (solutionlistavailible.contains(item)) {
+        for (item in guessListAvailable) {
+            if (solutionListAvailable.contains(item)) {
                 correctbutwrongspotcounter++
-                solutionlistavailible[solutionlistavailible.indexOf(item)] = 12
+                solutionListAvailable[solutionListAvailable.indexOf(item)] = 12
             }
         }
 
