@@ -1,18 +1,14 @@
 //imports
 import kotlin.random.Random
 
-fun InputCheck() {
-
-}
-
-fun PageRefresh() {
+fun pageRefresh() {
     println("\n \n \n")
     println("\u001b[H\u001b[2J")
 }
 
 fun main() {
     //variable to keep main game loop running
-    var whileloopcount: Int = 0
+    var whileLoopCount: Int = 0
 
     //setting up colors
     val colorRed = "\u001B[38;5;202m"
@@ -36,24 +32,34 @@ fun main() {
     var symbolPartialCorrect = "◻"
 
     //creating the solution colors and order as a list, will be used to compare against user inputs to see if user is correct
-    val solutionList = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
+    var solutionList = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
 
     //creating list of previous guesses in order to display for each turn
-    val guessesList: MutableList<List<Int>> = mutableListOf()
+    var guessesList: MutableList<List<Int>> = mutableListOf()
 
     //list of previous "correct and in right spot" and "correct but in wrong spot" answers, will be used when displaying previous scores
-    val feedbackListFull: MutableList<Int> = mutableListOf()
-    val feedbackListPartial: MutableList<Int> = mutableListOf()
+    var feedbackListFull: MutableList<Int> = mutableListOf()
+    var feedbackListPartial: MutableList<Int> = mutableListOf()
 
-    //clearing screen
-    println("\u001b[H\u001b[2J")
+    fun systemStart () {
+        println("\u001b[H\u001b[2J")
 
-    println("                      __                       __          __ \n" +
-            ".--------.---.-.-----|  |_.-----.----.--------|__.-----.--|  |\n" +
-            "|        |  _  |__ --|   _|  -__|   _|        |  |     |  _  |\n" +
-            "|__|__|__|___._|_____|____|_____|__| |__|__|__|__|__|__|_____|")
-    println("type \"help\" for the game rules")
-    println("type \"compatibility\" if characters aren't displaying properly (if any of these show up improperly: ⓵ ▣ ◻ )")
+        println("                      __                       __          __ \n" +
+                ".--------.---.-.-----|  |_.-----.----.--------|__.-----.--|  |\n" +
+                "|        |  _  |__ --|   _|  -__|   _|        |  |     |  _  |\n" +
+                "|__|__|__|___._|_____|____|_____|__| |__|__|__|__|__|__|_____|")
+        println("type \"help\" for the game rules")
+        println("type \"compatibility\" if characters aren't displaying properly (if any of these show up improperly: ⓵ ▣ ◻ )")
+
+        whileLoopCount = 0
+        solutionList = listOf(Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7), Random.nextInt(1,7))
+        guessesList = mutableListOf()
+        feedbackListFull = mutableListOf()
+        feedbackListPartial = mutableListOf()
+
+    }
+
+    systemStart()
 
     //main game loop
     //while (whileLoopCount < 10) {
@@ -95,7 +101,7 @@ fun main() {
         }
 
         //spacing
-        PageRefresh()
+        pageRefresh()
 
         //turning user input into list from string so that it can be compared to the solution list
         val guessStrings = guessInput.split("").toMutableList()
@@ -112,7 +118,7 @@ fun main() {
             println("input syntax wrong, try again.")
             continue
         }
-        whileloopcount++
+        whileLoopCount++
 
         //turning user input into proper formatting (formatted as a list of integers, just like the solution list)
         val guess = guessStrings.map { it.toInt() }
@@ -174,18 +180,19 @@ fun main() {
         //what to do if the user gets all numbers correct
         if (correctcounter == 4) {
             println("you win!")
-            println("game won in $whileloopcount guesses")
+            println("game won in $whileLoopCount guesses")
             break
         }
 
         //printing losing screen
-        println("you have " + colorPurple + (10 - whileloopcount) + colorReset + " guesses left")
-        if (whileloopcount == 10) {
+        println("you have " + colorPurple + (10 - whileLoopCount) + colorReset + " guesses left")
+        if (whileLoopCount == 10) {
             println("you lost, no guesses left :(")
             println("solution is: $solutionList")
             println("play again? type \"y\" to play again")
             if (readln().lowercase() == "y") {
-                break
+                systemStart()
+                continue
             } else {
                 break
             }
